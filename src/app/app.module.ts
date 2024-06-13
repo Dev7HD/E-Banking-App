@@ -23,6 +23,9 @@ import {RippleModule} from "primeng/ripple";
 import {MultiSelectModule} from "primeng/multiselect";
 import {DropdownModule} from "primeng/dropdown";
 import {ProgressBarModule} from "primeng/progressbar";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AppInterceptor} from "./interceptor/app.interceptor";
+import {MessageService} from "primeng/api";
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -46,7 +49,12 @@ import {ProgressBarModule} from "primeng/progressbar";
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        PhotoService, ProductService, MessageService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AppInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent],
 })

@@ -7,7 +7,7 @@ import {MultiSelectModule} from "primeng/multiselect";
 import {FormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import {SliderModule} from "primeng/slider";
-import {CurrencyPipe, DatePipe, NgClass} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgClass, NgIf} from "@angular/common";
 import {ProgressBarModule} from "primeng/progressbar";
 import { expandedRows } from '../models/models';
 
@@ -25,7 +25,8 @@ import { expandedRows } from '../models/models';
         DatePipe,
         CurrencyPipe,
         ProgressBarModule,
-        NgClass
+        NgClass,
+        NgIf
     ],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.scss'

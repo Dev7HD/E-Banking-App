@@ -62,17 +62,22 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-account>
                     <tr>
-                        <td>
+                        <td class="text-center">
                             {{account.id}}
                         </td>
-                        <td>
-                            {{account.balance | currency:'USD':'symbol'}}
+                        <td class="text-center">
+                            {{account.balance | currency:'DH ':'symbol'}}
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{account.createdAt | date: 'MM/dd/yyyy'}}
                         </td>
-                        <td>
-                            <span [class]="account.status == 'CREATED' ? 'customer-badge status-new': account.status == 'ACTIVATED' ? 'customer-badge status-qualified' : 'customer-badge status-unqualified'">{{account.status}}</span>
+                        <td class="text-center">
+                            <span [class]="account.status == 'CREATED' ? 'customer-badge status-new': account.status == 'ACTIVATED' ? 'customer-badge status-qualified' : 'customer-badge status-unqualified'">
+                                <i *ngIf="account.status === 'ACTIVATED'" class="pi pi-check-circle"></i>
+                                <i *ngIf="account.status === 'SUSPENDED'" class="pi pi-ban"></i>
+                                <i *ngIf="account.status === 'CREATED'" class="pi pi-hourglass"></i>
+                                {{account.status}}
+                            </span>
                         </td>
                         <td class="text-center">
                             <span class="customer-badge status-proposal">{{account.currency}}</span>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
@@ -18,6 +18,10 @@ import { AppConfigModule } from './config/config.module';
 import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 import {NgOptimizedImage} from "@angular/common";
+import {DialogModule} from "primeng/dialog";
+import {ButtonModule} from "primeng/button";
+import {InputGroupModule} from "primeng/inputgroup";
+import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 
 @NgModule({
     declarations: [
@@ -41,7 +45,12 @@ import {NgOptimizedImage} from "@angular/common";
         RippleModule,
         RouterModule,
         AppConfigModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        DialogModule,
+        ButtonModule,
+        InputGroupModule,
+        InputGroupAddonModule,
+        ReactiveFormsModule
     ],
     exports: [AppLayoutComponent]
 })

@@ -61,17 +61,19 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-operation>
                     <tr>
-                        <td>
+                        <td class="text-center">
                             {{operation.id}}
                         </td>
                         <td class="text-center">
-                            {{operation.amount | currency:'USD':'symbol'}}
+                            {{operation.amount | currency:'DH ':'symbol'}}
                         </td>
                         <td class="text-center">
                             {{operation.date | date: 'dd/MM/yyyy'}}
                         </td>
                         <td class="text-center">
-                            <span [class]="operation.type == 'CREDIT' ? 'customer-badge status-qualified': 'customer-badge status-unqualified'">{{operation.type}}</span>
+                            <span class="customer-badge p-1" [class]="operation.type == 'CREDIT' ? 'status-qualified': 'status-unqualified'">
+                                {{operation.type}}
+                            </span>
                         </td>
                         <td class="text-center">
                             <span class="customer-badge status-proposal">{{operation.description}}</span>
