@@ -6,11 +6,13 @@ import {InputTextModule} from "primeng/inputtext";
 import {SharedModule} from "primeng/api";
 import {Table, TableModule} from "primeng/table";
 import {CustomerService} from "../services/customer.service";
-import {Customer, expandedRows} from '../models/models';
+import {Customer} from '../models/models';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DialogModule} from "primeng/dialog";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {InputGroupModule} from "primeng/inputgroup";
+import {Router, RouterLink} from "@angular/router";
+import {RippleModule} from "primeng/ripple";
 
 @Component({
   selector: 'app-customers',
@@ -28,7 +30,9 @@ import {InputGroupModule} from "primeng/inputgroup";
         InputGroupAddonModule,
         InputGroupModule,
         ReactiveFormsModule,
-        JsonPipe
+        JsonPipe,
+        RouterLink,
+        RippleModule
     ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
@@ -48,10 +52,12 @@ export class CustomersComponent implements OnInit{
     disabled: boolean = false;
 
     constructor(public customerService: CustomerService,
-                public formBuilder: FormBuilder) {
+                public formBuilder: FormBuilder,
+                private router: Router) {
     }
 
     ngOnInit(): void {
+        this.customerService.getCustomers();
         this.customerFormGroup = this.formBuilder.group({
             name: this.formBuilder.control('', Validators.required),
             email: this.formBuilder.control('', [Validators.required, Validators.email])
@@ -112,6 +118,7 @@ export class CustomersComponent implements OnInit{
                 this.customerService.getCustomers();
                 this.deleteCustomerDialogVisible = false
             }, error: err => {
+                this.deleteCustomerDialogVisible = false
                 console.error(err)
             }
         })
@@ -154,5 +161,10 @@ export class CustomersComponent implements OnInit{
                 console.error(err);
             }
         })
+    }
+
+    viewCustomerAccounts(customer: any) {
+        this.customerService.customer = customer;
+        this.router.navigateByUrl(`/accounts/customer/${customer.id}`);
     }
 }

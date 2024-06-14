@@ -9,6 +9,7 @@ import {Customer} from "../models/models";
 export class CustomerService {
 
     public customers!: Customer[];
+    public customer!: Customer;
 
   constructor(private http: HttpClient) { }
 
@@ -37,4 +38,5 @@ export class CustomerService {
     public updateCustomer(customerId: number, customer: Customer){
       return this.http.put<Customer>(`${environment.host}customers/${customerId}`, customer);
     }
+
 }

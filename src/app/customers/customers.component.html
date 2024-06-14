@@ -50,14 +50,11 @@
                 <ng-template pTemplate="body" let-customer>
                     <tr>
                         <td class="text-center">
-                            <button pButton class="p-button-raised p-button-info mr-2" (click)="updateCustomerDialog(customer.id)">
-                                <i class="pi pi-pencil"></i>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-raised p-button-warning mr-2" (click)="updateCustomerDialog(customer.id)">
                             </button>
-                            <button pButton class="p-button-raised p-button-secondary mr-2">
-                                <i class="pi pi-eye"></i>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-raised p-button-success mr-2" (click)="viewCustomerAccounts(customer)">
                             </button>
-                            <button pButton class="p-button-raised p-button-danger" (click)="deleteCustomerDialog(customer.id)">
-                                <i class="pi pi-trash"></i>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger mr-2" (click)="deleteCustomerDialog(customer.id)">
                             </button>
                         </td>
                         <td class="text-center">
@@ -141,7 +138,6 @@
                 Update customer information.
             </span>
             <form [formGroup]="updateCustomerFormGroup" (ngSubmit)="updateCustomer(id)">
-                {{updateCustomerFormGroup.value | json}}
                 <div class="flex align-items-center gap-3 mb-3">
                     <p-inputGroup>
                         <p-inputGroupAddon>

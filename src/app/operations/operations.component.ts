@@ -61,7 +61,7 @@ export class OperationsComponent implements OnInit{
         ]
     }
 
-    clear(table: Table) {
+     clear(table: Table) {
         table.clear();
         this.filter.nativeElement.value = '';
     }

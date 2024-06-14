@@ -21,22 +21,27 @@ export class AppInterceptor implements HttpInterceptor {
         switch (req.method) {
             case 'GET':
                 // Process GET request
-                this.messageService.add({ severity: 'info', summary: 'Loading', detail: 'Fetching data...' });
+                this.messageService.clear();
+                this.messageService.add({ severity: 'info', summary: 'Loading', detail: 'Loading data...' });
                 break;
             case 'POST':
                 // Process POST request
+                this.messageService.clear();
                 this.messageService.add({ severity: 'info', summary: 'Sending', detail: 'Posting data...' });
                 break;
             case 'PUT':
                 // Process PUT request
+                this.messageService.clear();
                 this.messageService.add({ severity: 'info', summary: 'Updating', detail: 'Updating data...' });
                 break;
             case 'DELETE':
                 // Process DELETE request
+                this.messageService.clear();
                 this.messageService.add({ severity: 'info', summary: 'Deleting', detail: 'Deleting data...' });
                 break;
             default:
-                console.log('Processing other request before sending');
+                this.messageService.clear();
+                this.messageService.add({ severity: 'info', summary: 'Loading', detail: 'Loading...' });
                 break;
         }
 
@@ -47,21 +52,26 @@ export class AppInterceptor implements HttpInterceptor {
                         switch (req.method) {
                             case 'GET':
                                 // Process GET response
+                                this.messageService.clear();
                                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data loaded.' });
                                 break;
                             case 'POST':
                                 // Process POST response
+                                this.messageService.clear();
                                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data sent.' });
                                 break;
                             case 'PUT':
                                 // Process PUT response
+                                this.messageService.clear();
                                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data updated.' });
                                 break;
                             case 'DELETE':
                                 // Process DELETE response
+                                this.messageService.clear();
                                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data deleted.' });
                                 break;
                             default:
+                                this.messageService.clear();
                                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Done.' });
                                 break;
                         }
@@ -69,7 +79,8 @@ export class AppInterceptor implements HttpInterceptor {
                 },
                 error => {
                     // Handle errors here
-                    this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Oops! Something went wrong...' });
+                    this.messageService.clear();
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Something went wrong...' });
                 }
             )
         );

@@ -10,7 +10,7 @@ import {CustomerService} from "../services/customer.service";
     selector: 'app-layout',
     templateUrl: './app.layout.component.html'
 })
-export class AppLayoutComponent implements OnDestroy, OnInit {
+export class AppLayoutComponent implements OnDestroy {
 
     overlayMenuOpenSubscription: Subscription;
 
@@ -56,10 +56,6 @@ export class AppLayoutComponent implements OnDestroy, OnInit {
                 this.hideMenu();
                 this.hideProfileMenu();
             });
-    }
-
-    ngOnInit(): void {
-        this.customerService.getCustomers();
     }
 
     hideMenu() {

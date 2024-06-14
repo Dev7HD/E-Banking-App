@@ -4,12 +4,12 @@ import {Table, TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {ChipsModule} from "primeng/chips";
 import {MultiSelectModule} from "primeng/multiselect";
-import {FormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import {SliderModule} from "primeng/slider";
 import {CurrencyPipe, DatePipe, NgClass, NgIf} from "@angular/common";
 import {ProgressBarModule} from "primeng/progressbar";
-import { expandedRows } from '../models/models';
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-accounts',
@@ -26,17 +26,20 @@ import { expandedRows } from '../models/models';
         CurrencyPipe,
         ProgressBarModule,
         NgClass,
-        NgIf
+        NgIf,
+        RouterLink
     ],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.scss'
 })
 export class AccountsComponent implements OnInit{
-    constructor(private accountService: AccountService) {
+    constructor(private accountService: AccountService,
+                private router: Router) {
     }
 
     public accounts: any;
     public loading: boolean = true;
+
 
     statuses: any[] = [];
     @ViewChild('filter') filter!: ElementRef;
@@ -54,7 +57,8 @@ export class AccountsComponent implements OnInit{
             { label: 'Created', value: 'CREATED'},
             { label: 'Activated', value: 'ACTIVATED' },
             { label: 'Suspended', value: 'SUSPENDED' },
-        ]
+        ];
+
     }
 
     clear(table: Table) {
@@ -67,4 +71,7 @@ export class AccountsComponent implements OnInit{
     }
 
 
+    viewAccountHistory(id: string) {
+        this.router.navigateByUrl(`/accounts/${id}/history`);
+    }
 }

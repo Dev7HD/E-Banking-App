@@ -5,6 +5,8 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
 import {CustomersComponent} from "./customers/customers.component";
 import {AccountsComponent} from "./accounts/accounts.component";
 import {OperationsComponent} from "./operations/operations.component";
+import {CustomerAccountsComponent} from "./customer-accounts/customer-accounts.component";
+import {AccountHistoryComponent} from "./accout-history/account-history.component";
 
 @NgModule({
     imports: [
@@ -15,6 +17,8 @@ import {OperationsComponent} from "./operations/operations.component";
                     { path: 'customers', component: CustomersComponent},
                     { path: 'accounts', component: AccountsComponent},
                     { path: 'operations', component: OperationsComponent},
+                    { path: 'accounts/customer/:id', component: CustomerAccountsComponent},
+                    { path: 'accounts/:id/history', component: AccountHistoryComponent},
                 ]
             },
 
