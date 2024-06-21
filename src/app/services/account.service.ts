@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {Account} from "../models/models";
+import {Account, AccountHistory} from "../models/models";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,19 @@ export class AccountService {
         return this.http.post(`${environment.host}accounts/sa?initialBalance=${initiatedBalance}&customerId=${customerId}&interestRate=${interestRate}`, null);
     }
 
-    public getHistory(id: string){
-        return this.http.get(`${environment.host}accounts/${id}/history`);
+    public getHistory(id: string, page: number, size: number){
+        let params = new HttpParams();
+        params = params.append("page", page)
+        params = params.append("size", size)
+        return this.http.get<AccountHistory>(`${environment.host}accounts/${id}/history`, { params: params });
     }
+
+    public getCountAccounts(){
+      return this.http.get<number[]>(`${environment.host}accounts/count-all`)
+    }
+
+    public getOperationsCount(){
+      return this.http.get(`${environment.host}operations/count`)
+    }
+
 }

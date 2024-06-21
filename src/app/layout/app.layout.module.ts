@@ -14,7 +14,6 @@ import { AppMenuitemComponent } from './app.menuitem.component';
 import { RouterModule } from '@angular/router';
 import { AppTopBarComponent } from './app.topbar.component';
 import { AppFooterComponent } from './app.footer.component';
-import { AppConfigModule } from './config/config.module';
 import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 import {NgOptimizedImage} from "@angular/common";
@@ -22,6 +21,7 @@ import {DialogModule} from "primeng/dialog";
 import {ButtonModule} from "primeng/button";
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {DropdownModule} from "primeng/dropdown";
 
 @NgModule({
     declarations: [
@@ -44,13 +44,13 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
         InputSwitchModule,
         RippleModule,
         RouterModule,
-        AppConfigModule,
         NgOptimizedImage,
         DialogModule,
         ButtonModule,
         InputGroupModule,
         InputGroupAddonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DropdownModule
     ],
     exports: [AppLayoutComponent]
 })

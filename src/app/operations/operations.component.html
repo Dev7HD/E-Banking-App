@@ -14,30 +14,36 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="min-width: 12rem">
+                        <th pSortableColumn="id" style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
                                 <i class="pi pi-list"></i>
-                                ID
+                                <div>
+                                    <p-sortIcon class="mr-2" field="id" />
+                                    ID
+                                </div>
                                 <p-columnFilter type="text" field="id" display="menu" placeholder="Search by id"></p-columnFilter>
                             </div>
                         </th>
-                        <th style="min-width: 12rem">
+                        <th pSortableColumn="amount" style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
                                 <i class="pi pi-wallet"></i>
+                                <p-sortIcon field="amount" />
                                 Amount
                                 <p-columnFilter type="numeric" field="amount" display="menu" currency="MAD"></p-columnFilter>
                             </div>
                         </th>
-                        <th style="min-width: 12rem">
+                        <th pSortableColumn="date" style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
                                 <i class="pi pi-calendar"></i>
+                                <p-sortIcon field="date" />
                                 Date
                                 <p-columnFilter type="date" field="date" display="menu" placeholder="dd/MM/yyyy"></p-columnFilter>
                             </div>
                         </th>
-                        <th style="min-width: 12rem">
+                        <th pSortableColumn="type" style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
                                 <i class="pi pi-check"></i>
+                                <p-sortIcon field="type" />
                                 Type
                                 <p-columnFilter field="type" matchMode="equals" display="menu">
                                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -50,9 +56,10 @@
                                 </p-columnFilter>
                             </div>
                         </th>
-                        <th style="min-width: 12rem">
+                        <th pSortableColumn="description" style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
                                 <i class="pi pi-info-circle"></i>
+                                <p-sortIcon field="description" />
                                 Description
                                 <p-columnFilter type="text" field="description" display="menu" placeholder="Search by description"></p-columnFilter>
                             </div>
@@ -86,8 +93,12 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="loadingbody">
-                    <tr>
-                        <td colspan="8">Loading accounts data. Please wait.</td>
+                    <tr *ngFor="let i of environment.skeletonLength">
+                        <td><p-skeleton/></td>
+                        <td><p-skeleton/></td>
+                        <td><p-skeleton/></td>
+                        <td><p-skeleton/></td>
+                        <td><p-skeleton/></td>
                     </tr>
                 </ng-template>
             </p-table>

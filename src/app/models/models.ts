@@ -23,6 +23,16 @@ export interface Operation {
     description: string
 }
 
+export interface AccountHistory {
+    operationDTOList: Operation[];
+    id: string;
+    balance: number;
+    currentPage: number;
+    pageSize: number;
+    totalPages: number;
+    totalElements: number;
+}
+
 //ENUMS
 
 export enum AccountStatus {

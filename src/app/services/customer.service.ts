@@ -14,13 +14,7 @@ export class CustomerService {
   constructor(private http: HttpClient) { }
 
     public getCustomers(){
-      this.http.get<Customer[]>(`${environment.host}customers/all`).subscribe({
-          next: data => {
-              this.customers = data;
-          }, error: err => {
-              console.error(err);
-          }
-      })
+      return this.http.get<Customer[]>(`${environment.host}customers/all`)
     }
 
     public getCustomer(id: number){

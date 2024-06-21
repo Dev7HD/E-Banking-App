@@ -1,5 +1,5 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
+    <a class="layout-topbar-logo" routerLink="/dashboard">
         <img src="assets/layout/images/e-banking.svg" alt="logo">
         <span>E-Banking</span>
     </a>
@@ -8,15 +8,28 @@
         <i class="pi pi-bars"></i>
     </button>
 
-    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
-        <i class="pi pi-ellipsis-v"></i>
-    </button>
-
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button>
+        <p-dropdown
+            [options]="themes"
+            optionLabel="name"
+            [(ngModel)]="selectedMode"
+            (onChange)="toggleMode()"
+
+            [showClear]="false"
+            placeholder="Select a mode">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" >
+                    <i [class]="selectedMode.icon"></i>
+                    <div>{{selectedMode.name}}</div>
+                </div>
+            </ng-template>
+            <ng-template let-theme pTemplate="item">
+                <div class="flex align-items-center gap-2" >
+                    <i [class]="theme.icon"></i>
+                    <div>{{ theme.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
         <button class="p-link layout-topbar-button">
             <i class="pi pi-user"></i>
             <span>Profile</span>

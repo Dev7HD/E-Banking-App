@@ -1,6 +1,6 @@
 :root {
-  font-family: Roboto, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  --font-family: Roboto, "Helvetica Neue Light", "Helvetica Neue", Helvetica,
+  font-family: archiaregular, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  --font-family: archiaregular, "Helvetica Neue Light", "Helvetica Neue", Helvetica,
       Arial, "Lucida Grande", sans-serif;
   --surface-a: #1e1e1e;
   --surface-b: #121212;
@@ -47,6 +47,18 @@
   --highlight-text-color: #CE93D8;
   --focus-ring: none;
   color-scheme: dark;
+}
+
+@font-face {
+    font-family: 'archiaregular';
+    src: url('../../fonts/archia-regular-webfont.eot');
+    src: url('../../fonts/archia-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../../fonts/archia-regular-webfont.woff2') format('woff2'),
+    url('../../fonts/archia-regular-webfont.woff') format('woff'),
+    url('../../fonts/archia-regular-webfont.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+
 }
 
 /* roboto-regular - latin-ext_latin */
@@ -194,6 +206,10 @@
   --primary-700:#906797;
   --primary-800:#715177;
   --primary-900:#523b56;
+}
+
+*{
+    font-size: medium;
 }
 
 .p-editor-container .p-editor-toolbar {

@@ -1,43 +1,17 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ButtonModule} from "primeng/button";
-import {CurrencyPipe, DatePipe, JsonPipe, NgIf} from "@angular/common";
-import {DropdownChangeEvent, DropdownModule} from "primeng/dropdown";
-import {InputTextModule} from "primeng/inputtext";
-import {SharedModule} from "primeng/api";
-import {Table, TableModule} from "primeng/table";
+import {DropdownChangeEvent} from "primeng/dropdown";
+import {Message} from "primeng/api";
+import {Table} from "primeng/table";
 import {AccountService} from "../services/account.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerService} from "../services/customer.service";
 import {Customer} from "../models/models";
-import {PanelModule} from "primeng/panel";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DialogModule} from "primeng/dialog";
-import {InputGroupAddonModule} from "primeng/inputgroupaddon";
-import {InputGroupModule} from "primeng/inputgroup";
-import {InputNumberModule} from "primeng/inputnumber";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {firstValueFrom} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-customer-accounts',
-  standalone: true,
-    imports: [
-        ButtonModule,
-        CurrencyPipe,
-        DatePipe,
-        DropdownModule,
-        InputTextModule,
-        NgIf,
-        SharedModule,
-        TableModule,
-        PanelModule,
-        FormsModule,
-        DialogModule,
-        InputGroupAddonModule,
-        InputGroupModule,
-        ReactiveFormsModule,
-        InputNumberModule,
-        JsonPipe
-    ],
   templateUrl: './customer-accounts.component.html',
   styleUrl: './customer-accounts.component.scss'
 })
@@ -46,7 +20,8 @@ export class CustomerAccountsComponent implements OnInit{
         private accountService: AccountService,
         private activatedRoute: ActivatedRoute,
         private customerService: CustomerService,
-        public formBuilder: FormBuilder
+        public formBuilder: FormBuilder,
+        private router: Router
 
     ) {
     }
@@ -59,11 +34,13 @@ export class CustomerAccountsComponent implements OnInit{
     newAccountFormGroup: FormGroup;
     accountTypeList: any[];
     accountType: string;
+    message: Message[];
 
     statuses: any[] = [];
     @ViewChild('filter') filter!: ElementRef;
 
     ngOnInit(): void {
+        this.message =  [{ severity: 'warn', summary: 'This customer have no accounts!' }];
         this.accountTypeList = [
             'Saving account',
             'Current account'
@@ -149,4 +126,10 @@ export class CustomerAccountsComponent implements OnInit{
     setAccountType(event: DropdownChangeEvent) {
         this.accountType = event.value;
     }
+
+    viewAccountHistory(id: string) {
+        this.router.navigateByUrl(`/accounts/${id}/history`);
+    }
+
+    protected readonly environment = environment;
 }

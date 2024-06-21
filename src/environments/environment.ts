@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-    host: 'http://192.168.1.4:99/'
+    host: 'http://localhost:99/',
+    skeletonLength: [1,2,3,4]
 };
 
 /*

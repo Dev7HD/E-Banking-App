@@ -1,52 +1,29 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ButtonModule} from "primeng/button";
-import {CurrencyPipe, DatePipe, JsonPipe} from "@angular/common";
-import {DropdownModule} from "primeng/dropdown";
-import {InputTextModule} from "primeng/inputtext";
-import {SharedModule} from "primeng/api";
-import {Table, TableModule} from "primeng/table";
+import {Table} from "primeng/table";
 import {CustomerService} from "../services/customer.service";
 import {Customer} from '../models/models';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DialogModule} from "primeng/dialog";
-import {InputGroupAddonModule} from "primeng/inputgroupaddon";
-import {InputGroupModule} from "primeng/inputgroup";
-import {Router, RouterLink} from "@angular/router";
-import {RippleModule} from "primeng/ripple";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router, } from "@angular/router";
+import {Message} from "primeng/api";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-customers',
-  standalone: true,
-    imports: [
-        ButtonModule,
-        CurrencyPipe,
-        DatePipe,
-        DropdownModule,
-        InputTextModule,
-        SharedModule,
-        TableModule,
-        DialogModule,
-        FormsModule,
-        InputGroupAddonModule,
-        InputGroupModule,
-        ReactiveFormsModule,
-        JsonPipe,
-        RouterLink,
-        RippleModule
-    ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })
 export class CustomersComponent implements OnInit{
     customer!: Customer;
+    customers!: any[];
     customerFormGroup!: FormGroup;
     updateCustomerFormGroup!: FormGroup;
-    loading: boolean = false;
+    loading: boolean;
     newCustomerDialogVisible: boolean = false;
     deleteCustomerDialogVisible: boolean = false;
     updateCustomerDialogVisible: boolean = false;
     statuses: any[] = [];
     id:number;
+    message: Message[];
 
     @ViewChild('filter') filter!: ElementRef;
     disabled: boolean = false;
@@ -57,7 +34,9 @@ export class CustomersComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        this.customerService.getCustomers();
+        this.message =  [{ severity: 'warn', summary: 'No customer found!' }];
+        this.loading = true;
+        this.getCustomers();
         this.customerFormGroup = this.formBuilder.group({
             name: this.formBuilder.control('', Validators.required),
             email: this.formBuilder.control('', [Validators.required, Validators.email])
@@ -67,9 +46,13 @@ export class CustomersComponent implements OnInit{
             name: this.formBuilder.control('', Validators.required),
             email: this.formBuilder.control('', [Validators.required, Validators.email])
         })
-        while (this.customerService.customers.length == 0){
-            this.loading = true;
-        }
+    }
+
+    getCustomers(){
+        this.customerService.getCustomers().subscribe({
+            next: customers => { this.customers = customers; this.loading = false },
+            error: err => { console.error(err) }
+        })
     }
 
     clear(table: Table) {
@@ -89,9 +72,7 @@ export class CustomersComponent implements OnInit{
         this.customer = this.customerFormGroup.value;
         this.customerService.saveCustomer(this.customer).subscribe({
             next: value => {
-                console.log('----success-----')
-                this.customerService.getCustomers();
-                console.table(value);
+                this.getCustomers();
                 this.resetForm();
                 this.newCustomerDialogVisible = false;
             }, error: err => {
@@ -114,8 +95,8 @@ export class CustomersComponent implements OnInit{
 
     deleteCustomer(id: number) {
         this.customerService.deleteCustomer(id).subscribe({
-            next: value => {
-                this.customerService.getCustomers();
+            next: () => {
+                this.getCustomers();
                 this.deleteCustomerDialogVisible = false
             }, error: err => {
                 this.deleteCustomerDialogVisible = false
@@ -154,8 +135,8 @@ export class CustomersComponent implements OnInit{
             email: this.formBuilder.control({value: this.customer.email, disabled: true}, [Validators.required, Validators.email])
         })
         this.customerService.updateCustomer(id,this.customer).subscribe({
-            next: data => {
-                this.customerService.getCustomers();
+            next: () => {
+                this.getCustomers();
                 this.updateCustomerDialogVisible = false;
             }, error: err => {
                 console.error(err);
@@ -167,4 +148,6 @@ export class CustomersComponent implements OnInit{
         this.customerService.customer = customer;
         this.router.navigateByUrl(`/accounts/customer/${customer.id}`);
     }
+
+    protected readonly environment = environment;
 }

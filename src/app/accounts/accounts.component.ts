@@ -1,34 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AccountService} from "../services/account.service";
-import {Table, TableModule} from "primeng/table";
-import {ButtonModule} from "primeng/button";
-import {ChipsModule} from "primeng/chips";
-import {MultiSelectModule} from "primeng/multiselect";
-import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
-import {DropdownModule} from "primeng/dropdown";
-import {SliderModule} from "primeng/slider";
-import {CurrencyPipe, DatePipe, NgClass, NgIf} from "@angular/common";
-import {ProgressBarModule} from "primeng/progressbar";
-import {Router, RouterLink} from "@angular/router";
+import {Table} from "primeng/table";
+import {Router} from "@angular/router";
+import {Message} from "primeng/api";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-accounts',
-  standalone: true,
-    imports: [
-        TableModule,
-        ButtonModule,
-        ChipsModule,
-        MultiSelectModule,
-        FormsModule,
-        DropdownModule,
-        SliderModule,
-        DatePipe,
-        CurrencyPipe,
-        ProgressBarModule,
-        NgClass,
-        NgIf,
-        RouterLink
-    ],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.scss'
 })
@@ -39,12 +17,13 @@ export class AccountsComponent implements OnInit{
 
     public accounts: any;
     public loading: boolean = true;
+    public message: Message[];
 
-
-    statuses: any[] = [];
+    status: any[] = [];
     @ViewChild('filter') filter!: ElementRef;
 
     ngOnInit(): void {
+        this.message =  [{ severity: 'warn', summary: 'No accounts found!' }];
         this.accountService.getAccounts().subscribe({
             next: data => {
                 this.loading = false;
@@ -53,7 +32,7 @@ export class AccountsComponent implements OnInit{
                 console.error(err)
             }
         });
-        this.statuses=[
+        this.status=[
             { label: 'Created', value: 'CREATED'},
             { label: 'Activated', value: 'ACTIVATED' },
             { label: 'Suspended', value: 'SUSPENDED' },
@@ -74,4 +53,6 @@ export class AccountsComponent implements OnInit{
     viewAccountHistory(id: string) {
         this.router.navigateByUrl(`/accounts/${id}/history`);
     }
+
+    protected readonly environment = environment;
 }

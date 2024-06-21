@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <h5>Bank accounts</h5>
-            <p-table #dt1 [value]="customerService.customers" dataKey="id" [rows]="5" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['id','email','name']" responsiveLayout="scroll">
+            <p-table #dt1 [value]="customers" dataKey="id" [rows]="5" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['id','email','name']" responsiveLayout="scroll">
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
                         <span class="p-input-icon-left mb-2">
@@ -17,46 +17,42 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
+                        <th pSortableColumn="id" style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                <i class="pi pi-list"></i>
+                                <div>
+                                    <p-sortIcon class="mr-2" field="id" />
+                                    ID
+                                </div>
+                                <p-columnFilter type="text" field="id" display="menu" placeholder="Search by id"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="name" style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                <i class="pi pi-user"></i>
+                                <p-sortIcon field="name" />
+                                Name
+                                <p-columnFilter type="text" field="id" display="menu" placeholder="Search by name"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="email" style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                <i class="pi pi-at"></i>
+                                <p-sortIcon field="email" />
+                                Email
+                                <p-columnFilter type="text" field="id" display="menu" placeholder="Search by email"></p-columnFilter>
+                            </div>
+                        </th>
                         <th style="min-width: 12rem">
                             <div class="flex justify-content-center align-items-center">
                                 <i class="pi pi-user-edit mr-2"></i>
                                 Actions
                             </div>
                         </th>
-                        <th style="min-width: 12rem">
-                            <div class="flex justify-content-between align-items-center">
-                                <i class="pi pi-list"></i>
-                                ID
-                                <p-columnFilter type="text" field="id" display="menu" placeholder="Search by id"></p-columnFilter>
-                            </div>
-                        </th>
-                        <th style="min-width: 12rem">
-                            <div class="flex justify-content-between align-items-center">
-                                <i class="pi pi-user"></i>
-                                Name
-                                <p-columnFilter type="text" field="id" display="menu" placeholder="Search by name"></p-columnFilter>
-                            </div>
-                        </th>
-                        <th style="min-width: 12rem">
-                            <div class="flex justify-content-between align-items-center">
-                                <i class="pi pi-at"></i>
-                                Email
-                                <p-columnFilter type="text" field="id" display="menu" placeholder="Search by email"></p-columnFilter>
-                            </div>
-                        </th>
-
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-customer>
                     <tr>
-                        <td class="text-center">
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-raised p-button-warning mr-2" (click)="updateCustomerDialog(customer.id)">
-                            </button>
-                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-raised p-button-success mr-2" (click)="viewCustomerAccounts(customer)">
-                            </button>
-                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger mr-2" (click)="deleteCustomerDialog(customer.id)">
-                            </button>
-                        </td>
                         <td class="text-center">
                             {{customer.id}}
                         </td>
@@ -66,16 +62,55 @@
                         <td class="text-center">
                             {{customer.email}}
                         </td>
+                        <td class="text-center">
+                            <p-button
+                                [raised]="true"
+                                [rounded]="true"
+                                severity="warning"
+                                icon="pi pi-pencil"
+                                class="mr-2"
+                                pTooltip="Edit customer information"
+                                tooltipPosition="bottom"
+                                (click)="updateCustomerDialog(customer.id)"
+                            ></p-button>
+                            <p-button
+                                [raised]="true"
+                                [rounded]="true"
+                                severity="info"
+                                icon="pi pi-eye"
+                                class="mr-2"
+                                pTooltip="View Customer accounts"
+                                tooltipPosition="bottom"
+                                (click)="viewCustomerAccounts(customer)"
+                            >
+                            </p-button>
+                            <p-button
+                                [raised]="true"
+                                [rounded]="true"
+                                severity="danger"
+                                icon="pi pi-trash"
+                                class="mr-2"
+                                pTooltip="Delete customer"
+                                tooltipPosition="bottom"
+                                (click)="deleteCustomerDialog(customer.id)"
+                            >
+                            </p-button>
+                        </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No customers found.</td>
+                        <td colspan="8">
+                            <p-messages [(value)]="message" [closable]="false" />
+                        </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="loadingbody">
-                    <tr>
-                        <td colspan="8">Loading customers data. Please wait.</td>
+                    <tr *ngFor="let i of environment.skeletonLength">
+                        <td><p-skeleton/></td>
+                        <td><p-skeleton/></td>
+                        <td><p-skeleton/></td>
+                        <td><p-skeleton/></td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -95,7 +130,10 @@
                         <p-inputGroupAddon>
                             <i class="pi pi-user"></i>
                         </p-inputGroupAddon>
-                        <input  pInputText placeholder="Name" formControlName="name"/>
+                        <input
+                            pInputText
+                            placeholder="Name"
+                            formControlName="name"/>
                     </p-inputGroup>
                 </div>
                 <div class="flex align-items-center gap-3 mb-5">
@@ -107,8 +145,8 @@
                     </p-inputGroup>
                 </div>
                 <div class="flex justify-content-end gap-2">
-                    <p-button label="Cancel" severity="secondary" (click)="newCustomerDialogVisible = false" />
-                    <p-button label="Save" [disabled]="customerFormGroup.invalid" type="submit" />
+                    <p-button label="Cancel" severity="info" (click)="newCustomerDialogVisible = false" />
+                    <p-button label="Save" severity="success" [disabled]="customerFormGroup.invalid" type="submit" />
                 </div>
             </form>
         </p-dialog>
@@ -123,8 +161,8 @@
             </span>
             <form (ngSubmit)="deleteCustomer(id)">
                 <div class="flex justify-content-end gap-2">
-                    <p-button label="Cancel" severity="secondary" (click)="deleteCustomerDialogVisible = false" />
-                    <p-button label="Delete customer" type="submit" />
+                    <p-button label="Cancel" severity="info" (click)="deleteCustomerDialogVisible = false" />
+                    <p-button label="Delete customer" severity="danger" type="submit" />
                 </div>
             </form>
         </p-dialog>
@@ -151,7 +189,11 @@
                         <p-inputGroupAddon>
                             <i class="pi pi-user"></i>
                         </p-inputGroupAddon>
-                        <input  pInputText placeholder="Name" formControlName="name" [disabled]="disabled"/>
+                        <input
+                            pInputText
+                            placeholder="Name"
+                            formControlName="name"
+                            [disabled]="disabled"/>
                     </p-inputGroup>
                 </div>
                 <div class="flex align-items-center gap-3 mb-5">
@@ -163,8 +205,8 @@
                     </p-inputGroup>
                 </div>
                 <div class="flex justify-content-end gap-2">
-                    <p-button label="Cancel" severity="secondary" (click)="updateCustomerDialogVisible = false" />
-                    <p-button label="Update" [disabled]="updateCustomerFormGroup.invalid || disabled" type="submit" />
+                    <p-button label="Cancel" severity="info" (click)="updateCustomerDialogVisible = false" />
+                    <p-button label="Update" severity="success" [disabled]="updateCustomerFormGroup.invalid || disabled" type="submit" />
                 </div>
             </form>
         </p-dialog>

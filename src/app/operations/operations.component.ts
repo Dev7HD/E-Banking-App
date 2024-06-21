@@ -1,39 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { RippleModule } from 'primeng/ripple';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { DropdownModule } from 'primeng/dropdown';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { ToastModule } from 'primeng/toast';
-import { SliderModule } from 'primeng/slider';
-import { RatingModule } from 'primeng/rating';
 import { Table } from 'primeng/table';
-
 import {OperationService} from "../services/operation.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-operations',
-  standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        TableModule,
-        RatingModule,
-        ButtonModule,
-        SliderModule,
-        InputTextModule,
-        ToggleButtonModule,
-        RippleModule,
-        MultiSelectModule,
-        DropdownModule,
-        ProgressBarModule,
-        ToastModule
-    ],
   templateUrl: './operations.component.html',
   styleUrl: './operations.component.scss'
 })
@@ -70,4 +41,5 @@ export class OperationsComponent implements OnInit{
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
+    protected readonly environment = environment;
 }

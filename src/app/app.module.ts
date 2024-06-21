@@ -1,55 +1,88 @@
 import { NgModule } from '@angular/core';
-import {CommonModule, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {
+    CommonModule,
+    CurrencyPipe,
+    DatePipe,
+    LocationStrategy,
+    NgClass,
+    NgIf,
+    PathLocationStrategy
+} from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
-import { NotfoundComponent } from './demo/components/notfound/notfound.component';
-import { ProductService } from './demo/service/product.service';
-import { CountryService } from './demo/service/country.service';
-import { CustomerService } from './demo/service/customer.service';
-import { EventService } from './demo/service/event.service';
-import { IconService } from './demo/service/icon.service';
-import { NodeService } from './demo/service/node.service';
-import { PhotoService } from './demo/service/photo.service';
+import { NotfoundComponent } from './notfound/notfound.component';
 import {ToastModule} from "primeng/toast";
 import {TableModule} from "primeng/table";
-import {FormsModule} from "@angular/forms";
-import {RatingModule} from "primeng/rating";
-import {SliderModule} from "primeng/slider";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
-import {ToggleButtonModule} from "primeng/togglebutton";
-import {RippleModule} from "primeng/ripple";
-import {MultiSelectModule} from "primeng/multiselect";
 import {DropdownModule} from "primeng/dropdown";
-import {ProgressBarModule} from "primeng/progressbar";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {AppInterceptor} from "./interceptor/app.interceptor";
 import {MessageService} from "primeng/api";
+import {PaginatorModule} from "primeng/paginator";
+import {AccountsComponent} from "./accounts/accounts.component";
+import {AccountHistoryComponent} from "./accout-history/account-history.component";
+import {CustomerAccountsComponent} from "./customer-accounts/customer-accounts.component";
+import {CustomersComponent} from "./customers/customers.component";
+import {OperationsComponent} from "./operations/operations.component";
+import {SkeletonModule} from "primeng/skeleton";
+import {MessagesModule} from "primeng/messages";
+import {RouterLink} from "@angular/router";
+import {PanelModule} from "primeng/panel";
+import {DialogModule} from "primeng/dialog";
+import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {InputGroupModule} from "primeng/inputgroup";
+import {ImageModule} from "primeng/image";
+import {TagModule} from "primeng/tag";
+import {ChartModule} from "primeng/chart";
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {AvatarModule} from "primeng/avatar";
 
 @NgModule({
-    declarations: [AppComponent, NotfoundComponent],
+    declarations: [
+        AppComponent,
+        NotfoundComponent,
+        AccountsComponent,
+        AccountHistoryComponent,
+        CustomerAccountsComponent,
+        CustomersComponent,
+        OperationsComponent,
+        DashboardComponent
+    ],
     imports: [
         AppRoutingModule,
         AppLayoutModule,
         CommonModule,
+        CurrencyPipe,
+        DatePipe,
         FormsModule,
         TableModule,
-        RatingModule,
         ButtonModule,
-        SliderModule,
         InputTextModule,
-        ToggleButtonModule,
-        RippleModule,
-        MultiSelectModule,
         DropdownModule,
-        ProgressBarModule,
         ToastModule,
+        PaginatorModule,
+        NgClass,
+        NgIf,
+        RouterLink,
+        MessagesModule,
+        SkeletonModule,
+        PanelModule,
+        DialogModule,
+        InputGroupAddonModule,
+        InputGroupModule,
+        ReactiveFormsModule,
+        ImageModule,
+        DropdownModule,
+        TagModule,
+        ChartModule,
+        AvatarModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
-        CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MessageService,
+        MessageService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AppInterceptor,
