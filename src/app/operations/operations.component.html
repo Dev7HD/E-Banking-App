@@ -2,7 +2,19 @@
     <div class="col-12">
         <div class="card">
             <h5>Bank accounts</h5>
-            <p-table #dt1 [value]="operations" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['id','date','amount','type', 'description']" responsiveLayout="scroll">
+            <p-table
+                #dt1
+                [value]="operations"
+                dataKey="id"
+                [rows]="10"
+                [rowsPerPageOptions]="[10, 20, 50, 100]"
+                [loading]="loading"
+                [rowHover]="true"
+                styleClass="p-datatable-gridlines"
+                [paginator]="true"
+                [globalFilterFields]="['id','date','amount','type', 'description']"
+                responsiveLayout="scroll"
+            >
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
                         <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>

@@ -207,9 +207,6 @@
   --primary-800:#392065;
   --primary-900:#291749;
 }
-*{
-    font-size: medium;
-}
 
 .p-editor-container .p-editor-toolbar {
   background: #ffffff;

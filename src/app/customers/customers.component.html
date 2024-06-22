@@ -2,7 +2,19 @@
     <div class="col-12">
         <div class="card">
             <h5>Bank accounts</h5>
-            <p-table #dt1 [value]="customers" dataKey="id" [rows]="5" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['id','email','name']" responsiveLayout="scroll">
+            <p-table
+                #dt1
+                [value]="customers"
+                dataKey="id"
+                [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [loading]="loading"
+                [rowHover]="true"
+                styleClass="p-datatable-gridlines"
+                [paginator]="true"
+                [globalFilterFields]="['id','email','name']"
+                responsiveLayout="scroll"
+            >
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
                         <span class="p-input-icon-left mb-2">
@@ -125,7 +137,7 @@
                 Enter the new customer information.
             </span>
             <form [formGroup]="customerFormGroup" (ngSubmit)="saveCustomer()">
-                <div class="flex align-items-center gap-3 mb-3">
+                <div class="flex flex-column align-items-center mb-3">
                     <p-inputGroup>
                         <p-inputGroupAddon>
                             <i class="pi pi-user"></i>
@@ -135,14 +147,29 @@
                             placeholder="Name"
                             formControlName="name"/>
                     </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="customerFormGroup.get('name')?.value == ''">
+                        *Name is required.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="customerFormGroup.get('name')?.value.length < 3">
+                        *Minimum length is 3.
+                    </small>
                 </div>
-                <div class="flex align-items-center gap-3 mb-5">
+                <div class="flex flex-column align-items-center mb-5">
                     <p-inputGroup>
                         <p-inputGroupAddon>
                             <i class="pi pi-at"></i>
                         </p-inputGroupAddon>
                         <input  pInputText placeholder="Email" formControlName="email"/>
                     </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="customerFormGroup.get('email')?.value == ''">
+                        *Email is required.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="customerFormGroup.get('email')?.value.length < 5">
+                        *Minimum length is 5.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="customerFormGroup.get('email')?.invalid">
+                        *Enter a valid email format.
+                    </small>
                 </div>
                 <div class="flex justify-content-end gap-2">
                     <p-button label="Cancel" severity="info" (click)="newCustomerDialogVisible = false" />
@@ -176,7 +203,7 @@
                 Update customer information.
             </span>
             <form [formGroup]="updateCustomerFormGroup" (ngSubmit)="updateCustomer(id)">
-                <div class="flex align-items-center gap-3 mb-3">
+                <div class="flex flex-column align-items-center mb-3">
                     <p-inputGroup>
                         <p-inputGroupAddon>
                             <i class="pi pi-list"></i>
@@ -184,7 +211,7 @@
                         <input  pInputText placeholder="ID" formControlName="id" [disabled]="true"/>
                     </p-inputGroup>
                 </div>
-                <div class="flex align-items-center gap-3 mb-3">
+                <div class="flex flex-column align-items-center mb-3">
                     <p-inputGroup>
                         <p-inputGroupAddon>
                             <i class="pi pi-user"></i>
@@ -195,14 +222,29 @@
                             formControlName="name"
                             [disabled]="disabled"/>
                     </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="updateCustomerFormGroup.get('name')?.value == ''">
+                        *Name is required.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="updateCustomerFormGroup.get('name')?.value.length < 3">
+                        *Minimum length is 3.
+                    </small>
                 </div>
-                <div class="flex align-items-center gap-3 mb-5">
+                <div class="flex flex-column align-items-center mb-5">
                     <p-inputGroup>
                         <p-inputGroupAddon>
                             <i class="pi pi-at"></i>
                         </p-inputGroupAddon>
                         <input  pInputText placeholder="Email" formControlName="email" [disabled]="disabled"/>
                     </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="updateCustomerFormGroup.get('email')?.value == ''">
+                        *Email is required.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="updateCustomerFormGroup.get('email')?.value.length < 5">
+                        *Minimum length is 5.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="updateCustomerFormGroup.get('email')?.invalid">
+                        *Enter a valid email format.
+                    </small>
                 </div>
                 <div class="flex justify-content-end gap-2">
                     <p-button label="Cancel" severity="info" (click)="updateCustomerDialogVisible = false" />

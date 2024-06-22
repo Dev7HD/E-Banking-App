@@ -9,7 +9,19 @@
                     <h6>Customer email: <span class="font-bold customer-badge status-new">{{customer.email}}</span></h6>
                 </p-panel>
             </div>
-            <p-table #dt1 [value]="accounts" dataKey="id" [rows]="5" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['id','balance','createdAt','status', 'currency']" responsiveLayout="scroll">
+            <p-table
+                #dt1
+                [value]="accounts"
+                dataKey="id"
+                [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [loading]="loading"
+                [rowHover]="true"
+                styleClass="p-datatable-gridlines"
+                [paginator]="true"
+                [globalFilterFields]="['id','balance','createdAt','status', 'currency']"
+                responsiveLayout="scroll"
+            >
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
                         <span class="p-input-icon-left mb-2">
@@ -94,7 +106,7 @@
                             {{account.createdAt | date: 'MM/dd/yyyy'}}
                         </td>
                         <td class="text-center">
-                            <span [class]="account.status == 'CREATED' ? 'customer-badge status-new': account.status == 'ACTIVATED' ? 'customer-badge status-qualified' : 'customer-badge status-unqualified'">
+                            <span class="customer-badge p-2" [class]="account.status == 'CREATED' ? 'status-new': account.status == 'ACTIVATED' ? 'status-qualified' : 'status-unqualified'">
                                 <i *ngIf="account.status === 'ACTIVATED'" class="pi pi-check-circle"></i>
                                 <i *ngIf="account.status === 'SUSPENDED'" class="pi pi-ban"></i>
                                 <i *ngIf="account.status === 'CREATED'" class="pi pi-hourglass"></i>
@@ -129,7 +141,7 @@
             </p-table>
         </div>
         <p-dialog
-            header="Add new customer"
+            header="Add new customer account"
             [modal]="true"
             [(visible)]="newAccountDialogVisible"
             [position]="'top'"
@@ -146,37 +158,55 @@
                         <input  pInputText placeholder="Customer id" formControlName="customerId"/>
                     </p-inputGroup>
                 </div>
-                <div class="flex align-items-center gap-3 mb-3">
+                <div class="flex flex-column align-items-center mb-3">
                     <p-inputGroup>
                         <p-inputGroupAddon>
                             <i class="pi pi-dollar"></i>
                         </p-inputGroupAddon>
                         <input  pInputText placeholder="Initial balance" formControlName="initialBalance"/>
                     </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="newAccountFormGroup.get('initialBalance')?.value == ''">
+                        *Initial balance is required.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="newAccountFormGroup.get('initialBalance')?.value < 100">
+                        *Minimum value is 100.
+                    </small>
                 </div>
-                <div class="flex align-items-center justify-content-center gap-3 mb-3">
+                <div class="flex flex-column align-items-center justify-content-center mb-3">
                     <p-inputGroup>
                         <p-inputGroupAddon>
                             <i class="pi pi-credit-card"></i>
                         </p-inputGroupAddon>
                         <p-dropdown [options]="accountTypeList" placeholder="Chose account type" (onChange)="setAccountType($event)" [style]="{'min-width': '100%'}" formControlName="accountType" />
                     </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="newAccountFormGroup.get('accountType')?.invalid">
+                        *Account type is required.
+                    </small>
                 </div>
-                <div *ngIf="accountType == 'Saving account'" class="flex align-items-center gap-3 mb-3">
-                        <p-inputGroup>
+                <div *ngIf="accountType == 'Saving account'" class="flex flex-column align-items-center mb-3">
+                    <p-inputGroup>
                             <p-inputGroupAddon>
                                 <i class="pi pi-dollar"></i>
                             </p-inputGroupAddon>
                             <input  pInputText placeholder="Interest rate" formControlName="interestRate"/>
-                        </p-inputGroup>
+                    </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="newAccountFormGroup.get('interestRate')?.value == ''">
+                        *Interest rate is required.
+                    </small>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="newAccountFormGroup.get('interestRate')?.value > 10 || newAccountFormGroup.get('interestRate')?.value < 0">
+                        *Minimum value is 0 and maximum value is 10.
+                    </small>
                 </div>
-                <div *ngIf="accountType == 'Current account'" class="flex align-items-center gap-3 mb-3">
+                <div *ngIf="accountType == 'Current account'" class="flex flex-column align-items-center mb-3">
                         <p-inputGroup>
                             <p-inputGroupAddon>
                                 <i class="pi pi-dollar"></i>
                             </p-inputGroupAddon>
                             <input  pInputText placeholder="Over draft" formControlName="overDraft"/>
                         </p-inputGroup>
+                    <small [ngStyle]="{color:'var(--red-400)'}" class="p-error align-self-start" *ngIf="newAccountFormGroup.get('overDraft')?.value < 2000 ">
+                        *Minimum value is 2000.
+                    </small>
                 </div>
                 <div class="flex justify-content-end gap-2 mt-6">
                     <p-button label="Cancel" severity="secondary" (click)="newAccountDialogVisible = false" />

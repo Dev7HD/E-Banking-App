@@ -13,6 +13,7 @@ import {environment} from "../../environments/environment";
   styleUrl: './customers.component.scss'
 })
 export class CustomersComponent implements OnInit{
+    emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     customer!: Customer;
     customers!: any[];
     customerFormGroup!: FormGroup;
@@ -37,14 +38,11 @@ export class CustomersComponent implements OnInit{
         this.message =  [{ severity: 'warn', summary: 'No customer found!' }];
         this.loading = true;
         this.getCustomers();
-        this.customerFormGroup = this.formBuilder.group({
-            name: this.formBuilder.control('', Validators.required),
-            email: this.formBuilder.control('', [Validators.required, Validators.email])
-        })
+        this.resetForm();
         this.updateCustomerFormGroup = this.formBuilder.group({
             id: this.formBuilder.control('', [Validators.required]),
-            name: this.formBuilder.control('', Validators.required),
-            email: this.formBuilder.control('', [Validators.required, Validators.email])
+            name: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
+            email: this.formBuilder.control('', [Validators.required, Validators.pattern(this.emailRegExp), Validators.minLength(5)])
         })
     }
 
@@ -84,7 +82,7 @@ export class CustomersComponent implements OnInit{
     resetForm() {
         this.customerFormGroup = this.formBuilder.group({
             name: this.formBuilder.control('', Validators.required),
-            email: this.formBuilder.control('', [Validators.required, Validators.email])
+            email: this.formBuilder.control('', [Validators.required, Validators.pattern(this.emailRegExp)])
         })
     }
 
@@ -115,7 +113,7 @@ export class CustomersComponent implements OnInit{
                 this.updateCustomerFormGroup = this.formBuilder.group({
                     id: this.formBuilder.control({value: this.customer.id, disabled: true}, Validators.required),
                     name: this.formBuilder.control(this.customer.name, Validators.required),
-                    email: this.formBuilder.control(this.customer.email, [Validators.required, Validators.email])
+                    email: this.formBuilder.control(this.customer.email, [Validators.required, Validators.pattern(this.emailRegExp)])
                 })
                 this.loading = false;
                 this.updateCustomerDialogVisible = true;
@@ -132,8 +130,9 @@ export class CustomersComponent implements OnInit{
         this.updateCustomerFormGroup = this.formBuilder.group({
             id: this.formBuilder.control({value: this.customer.id, disabled: true}, Validators.required),
             name: this.formBuilder.control({value: this.customer.name, disabled: true}, Validators.required),
-            email: this.formBuilder.control({value: this.customer.email, disabled: true}, [Validators.required, Validators.email])
+            email: this.formBuilder.control({value: this.customer.email, disabled: true}, [Validators.required, Validators.pattern(this.emailRegExp)])
         })
+
         this.customerService.updateCustomer(id,this.customer).subscribe({
             next: () => {
                 this.getCustomers();

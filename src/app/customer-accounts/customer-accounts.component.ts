@@ -125,6 +125,21 @@ export class CustomerAccountsComponent implements OnInit{
 
     setAccountType(event: DropdownChangeEvent) {
         this.accountType = event.value;
+        if(this.accountType == 'Saving account'){
+            this.newAccountFormGroup.get('interestRate').setValue('')
+            this.newAccountFormGroup.get('interestRate').setValidators([
+                Validators.required,
+                Validators.min(0),
+                Validators.max(10)
+            ])
+        } else {
+            this.newAccountFormGroup.get('overDraft').setValue('')
+            this.newAccountFormGroup.get('overDraft').setValidators([
+                Validators.required,
+                Validators.min(2000),
+                Validators.max(10000)
+            ])
+        }
     }
 
     viewAccountHistory(id: string) {
