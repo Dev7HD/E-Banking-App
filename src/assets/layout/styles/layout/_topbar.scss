@@ -1,7 +1,7 @@
 .layout-topbar {
     position: fixed;
     height: 5rem;
-    z-index: 997;
+    z-index: 995;
     left: 0;
     top: 0;
     width: 100%;
@@ -90,10 +90,10 @@
     .layout-topbar {
         justify-content: space-between;
 
-        .layout-topbar-logo {
+        /*.layout-topbar-logo {
             width: auto;
             order: 2;
-        }
+        }*/
 
         .layout-menu-button {
             margin-left: 0;

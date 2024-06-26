@@ -30,4 +30,11 @@ export class LoginService {
         this.userState.roles = jwtDecoded.scope
         this.userState.isAuthenticated = true;
     }
+
+    public logout(){
+        this.userState.isAuthenticated = false;
+        this.userState.token = undefined;
+        this.userState.username = undefined;
+        this.userState.roles = undefined;
+    }
 }

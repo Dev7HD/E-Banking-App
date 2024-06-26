@@ -164,10 +164,10 @@ a {
   .layout-topbar {
     justify-content: space-between;
   }
-  .layout-topbar .layout-topbar-logo {
+  /*.layout-topbar .layout-topbar-logo {
     width: auto;
     order: 2;
-  }
+  }*/
   .layout-topbar .layout-menu-button {
     margin-left: 0;
     order: 1;

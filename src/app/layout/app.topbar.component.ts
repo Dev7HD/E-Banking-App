@@ -19,6 +19,7 @@ export class AppTopBarComponent implements OnInit{
     @ViewChild('topbarmenu') menu!: ElementRef;
     themes: any[];
     selectedMode: any;
+    isDialogVisible: boolean = false;
 
     constructor(public layoutService: LayoutService, private loginService: LoginService, private router: Router) { }
 
@@ -29,6 +30,10 @@ export class AppTopBarComponent implements OnInit{
         ];
         this.selectedMode = this.themes[0];
         this.changeTheme(this.themes[0].theme,this.themes[0].colorScheme);
+    }
+
+    showDialog(){
+        this.isDialogVisible = true;
     }
 
     set colorScheme(val: string) {
@@ -60,10 +65,7 @@ export class AppTopBarComponent implements OnInit{
     }
 
     logout() {
-        this.loginService.userState.isAuthenticated = false;
-        this.loginService.userState.token = '';
-        this.loginService.userState.username = '';
-        this.loginService.userState.roles = '';
+        this.loginService.logout();
         this.router.navigateByUrl("/login");
     }
 }
