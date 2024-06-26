@@ -23,7 +23,7 @@ export class CustomerAccountsComponent implements OnInit{
         private customerService: CustomerService,
         public formBuilder: FormBuilder,
         private router: Router,
-        private loginService: LoginService
+        protected loginService: LoginService
 
     ) {
     }
@@ -147,7 +147,7 @@ export class CustomerAccountsComponent implements OnInit{
     }
 
     viewAccountHistory(id: string) {
-        this.router.navigateByUrl(`/accounts/${id}/history`);
+        this.router.navigateByUrl(`/admin/accounts/${id}/history`);
     }
 
     protected readonly environment = environment;

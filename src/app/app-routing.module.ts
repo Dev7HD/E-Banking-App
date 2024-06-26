@@ -10,6 +10,9 @@ import {AccountHistoryComponent} from "./accout-history/account-history.componen
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {LoginComponent} from "./login/login.component";
 import {AuthenticationGuard} from "./guards/authentication.guard";
+import {NotAuthComponent} from "./not-auth/not-auth.component";
+import {AuthorizationGuard} from "./guards/authorization.guard";
+import {AdminComponent} from "./admin/admin.component";
 
 @NgModule({
     imports: [
@@ -20,12 +23,15 @@ import {AuthenticationGuard} from "./guards/authentication.guard";
                     { path: 'dashboard', component: DashboardComponent},
                     { path: 'customers', component: CustomersComponent},
                     { path: 'accounts', component: AccountsComponent},
-                    { path: 'operations', component: OperationsComponent},
                     { path: 'accounts/customer/:id', component: CustomerAccountsComponent},
-                    { path: 'accounts/:id/history', component: AccountHistoryComponent},
+                    {path: 'admin', component: AdminComponent, canActivate: [AuthorizationGuard], children:[
+                            { path: 'operations', component: OperationsComponent },
+                            { path: 'accounts/:id/history', component: AccountHistoryComponent}
+                        ]},
                 ]
             },
             { path: 'login', component: LoginComponent},
+            { path: 'not-auth', component: NotAuthComponent},
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/notfound' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })

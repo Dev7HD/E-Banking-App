@@ -56,7 +56,6 @@ export class AppTopBarComponent implements OnInit{
     }
 
     toggleMode(){
-        console.log(this.selectedMode)
         if(this.selectedMode == 'Light'){
             this.changeTheme(this.selectedMode.theme,this.selectedMode.colorScheme);
         } else {

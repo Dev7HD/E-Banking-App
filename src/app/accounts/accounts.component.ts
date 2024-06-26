@@ -4,6 +4,7 @@ import {Table} from "primeng/table";
 import {Router} from "@angular/router";
 import {Message} from "primeng/api";
 import {environment} from "../../environments/environment";
+import {LoginService} from "../services/login.service";
 
 @Component({
   selector: 'app-accounts',
@@ -12,12 +13,13 @@ import {environment} from "../../environments/environment";
 })
 export class AccountsComponent implements OnInit{
     constructor(private accountService: AccountService,
-                private router: Router) {
+                private router: Router,
+                protected loginService: LoginService) {
     }
 
-    public accounts: any;
-    public loading: boolean = true;
-    public message: Message[];
+    accounts: any;
+    loading: boolean = true;
+    message: Message[];
 
     status: any[] = [];
     @ViewChild('filter') filter!: ElementRef;
@@ -55,4 +57,5 @@ export class AccountsComponent implements OnInit{
     }
 
     protected readonly environment = environment;
+
 }

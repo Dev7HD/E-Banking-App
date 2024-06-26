@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {LoginData, LoginToken} from "../models/models";
 import {jwtDecode} from "jwt-decode";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,11 @@ export class LoginService {
         token: '',
         username: '',
         roles: '',
-        isAuthenticated: false
+        isAuthenticated: false,
+        isAdmin: false
     }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
     public login(loginData: LoginData){
       let options = {headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}
@@ -23,12 +25,17 @@ export class LoginService {
       return this.http.post<LoginToken>(`${environment.host}auth/login`,params, options);
     }
 
-    public loadUserState(token: string){
+    public async loadUserState(token: string){
         this.userState.token = token;
         let jwtDecoded: any = jwtDecode(token);
         this.userState.username = jwtDecoded.sub
         this.userState.roles = jwtDecoded.scope
         this.userState.isAuthenticated = true;
+        if(this.userState.roles.includes('ADMIN')){
+            this.userState.isAdmin = true;
+        }
+        window.localStorage.setItem('jwt-token', token);
+        console.log(window.localStorage.getItem('jwt-token'));
     }
 
     public logout(){
@@ -36,5 +43,8 @@ export class LoginService {
         this.userState.token = undefined;
         this.userState.username = undefined;
         this.userState.roles = undefined;
+        this.userState.isAdmin = undefined;
+        window.localStorage.removeItem('jwt-token');
+        this.router.navigateByUrl("/login")
     }
 }

@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     roles: any;
     isAdmin: boolean;
 
-    constructor(private layoutService: LayoutService, private accountService: AccountService, private loginService: LoginService) {
+    constructor(private layoutService: LayoutService, private accountService: AccountService, protected loginService: LoginService) {
         this.subscription = this.layoutService.configUpdate$
             .pipe(debounceTime(25))
             .subscribe(() => {
@@ -88,7 +88,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // Line chart
         this.accountService.getOperationsCount().subscribe({
             next: operationCountData => {
-                console.log(operationCountData);
                 const debitCount = Array.from({ length: 12 }, (_, i) => operationCountData[0][1][i][1]);
                 const creditCount = Array.from({ length: 12 }, (_, i) => operationCountData[1][1][i][1]);
 

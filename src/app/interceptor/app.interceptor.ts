@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
 import {
+    HttpErrorResponse,
     HttpEvent,
     HttpHandler,
     HttpInterceptor,
     HttpRequest,
     HttpResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {MessageService} from "primeng/api";
 import {LoginService} from "../services/login.service";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AppInterceptor implements HttpInterceptor {
-    constructor(private messageService: MessageService, private loginService: LoginService) {
+    constructor(private messageService: MessageService, private loginService: LoginService, private router: Router) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if(!req.url.includes('login')){
             let modifiedReq = req.clone({
-                headers: req.headers.set("Authorization", "Bearer " + this.loginService.userState.token)
+                headers: req.headers.set("Authorization", "Bearer " + window.localStorage.getItem('jwt-token'))
             });
 
             switch (req.method) {
@@ -80,10 +82,21 @@ export class AppInterceptor implements HttpInterceptor {
                             }
                         }
                     },
-                    () => {
-                        // Handle errors here
-                        this.messageService.clear();
-                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Something went wrong...' });
+                    (error: any) => {
+                        if (error instanceof HttpErrorResponse) {
+                            if (error.status === 403) {
+                                this.router.navigateByUrl('/not-auth');
+                                this.messageService.clear();
+                                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Your are not authorized...' });
+                            } else if(error.status == 401) {
+                                this.loginService.logout()
+                                this.messageService.clear();
+                                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Your session was over! Try to login again...' });
+                            } else {
+                                this.messageService.clear();
+                                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Something went wrong...' });
+                            }
+                        }
                     }
                 )
             );

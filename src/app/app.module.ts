@@ -43,6 +43,8 @@ import {CheckboxModule} from "primeng/checkbox";
 import {PasswordModule} from "primeng/password";
 import {LoginComponent} from "./login/login.component";
 import {TooltipModule} from "primeng/tooltip";
+import {NotAuthComponent} from "./not-auth/not-auth.component";
+import {AdminComponent} from "./admin/admin.component";
 
 @NgModule({
     declarations: [
@@ -54,7 +56,9 @@ import {TooltipModule} from "primeng/tooltip";
         CustomersComponent,
         OperationsComponent,
         DashboardComponent,
-        LoginComponent
+        LoginComponent,
+        NotAuthComponent,
+        AdminComponent
     ],
     imports: [
         AppRoutingModule,
@@ -86,17 +90,20 @@ import {TooltipModule} from "primeng/tooltip";
         AvatarModule,
         CheckboxModule,
         PasswordModule,
-        TooltipModule
+        TooltipModule,
     ],
     providers: [
-        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        {provide: LocationStrategy, useClass: PathLocationStrategy},
         MessageService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AppInterceptor,
             multi: true
-        }
+        },
     ],
     bootstrap: [AppComponent],
+    exports: [
+        OperationsComponent
+    ]
 })
 export class AppModule {}

@@ -34,7 +34,7 @@ export class CustomersComponent implements OnInit{
     constructor(public customerService: CustomerService,
                 public formBuilder: FormBuilder,
                 private router: Router,
-                private loginService: LoginService,
+                protected loginService: LoginService,
                 ) {
     }
 

@@ -1,10 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AccountService} from "../services/account.service";
 import {Message} from "primeng/api";
 import {Table} from "primeng/table";
 import {PaginatorState} from "primeng/paginator";
 import {environment} from "../../environments/environment";
+import {LoginService} from "../services/login.service";
 
 @Component({
   selector: 'app-accout-history',
@@ -14,7 +15,8 @@ import {environment} from "../../environments/environment";
 export class AccountHistoryComponent implements OnInit{
     constructor(
         private activatedRoute: ActivatedRoute,
-        private accountService: AccountService) {
+        private accountService: AccountService,
+        protected loginService: LoginService) {
     }
     accountId: string;
     accountHistory: any;
