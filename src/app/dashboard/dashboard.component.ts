@@ -88,8 +88,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // Line chart
         this.accountService.getOperationsCount().subscribe({
             next: operationCountData => {
-                const debitCount = Array.from({ length: 12 }, (_, i) => operationCountData[0][1][i][0]);
-                const creditCount = Array.from({ length: 12 }, (_, i) => operationCountData[1][1][i][0]);
+                console.log(operationCountData);
+                const debitCount = Array.from({ length: 12 }, (_, i) => operationCountData[0][1][i][1]);
+                const creditCount = Array.from({ length: 12 }, (_, i) => operationCountData[1][1][i][1]);
 
                 this.operationsCount = {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
