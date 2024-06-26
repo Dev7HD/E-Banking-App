@@ -39,6 +39,10 @@ import {TagModule} from "primeng/tag";
 import {ChartModule} from "primeng/chart";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {AvatarModule} from "primeng/avatar";
+import {CheckboxModule} from "primeng/checkbox";
+import {PasswordModule} from "primeng/password";
+import {LoginComponent} from "./login/login.component";
+import {TooltipModule} from "primeng/tooltip";
 
 @NgModule({
     declarations: [
@@ -49,7 +53,8 @@ import {AvatarModule} from "primeng/avatar";
         CustomerAccountsComponent,
         CustomersComponent,
         OperationsComponent,
-        DashboardComponent
+        DashboardComponent,
+        LoginComponent
     ],
     imports: [
         AppRoutingModule,
@@ -78,7 +83,10 @@ import {AvatarModule} from "primeng/avatar";
         DropdownModule,
         TagModule,
         ChartModule,
-        AvatarModule
+        AvatarModule,
+        CheckboxModule,
+        PasswordModule,
+        TooltipModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },

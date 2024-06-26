@@ -7,8 +7,6 @@ import {Account, AccountHistory} from "../models/models";
   providedIn: 'root'
 })
 export class AccountService {
-    customerId: number;
-    accountId: string;
 
   constructor(private http: HttpClient) { }
 

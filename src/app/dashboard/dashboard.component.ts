@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AccountService} from "../services/account.service";
 import {debounceTime, Subscription} from "rxjs";
 import {LayoutService} from "../layout/service/app.layout.service";
+import {LoginService} from "../services/login.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,17 +15,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
     operationsCount: any;
     sectorOptions: any;
     lineOptions: any;
+    username: string;
+    roles: any;
+    isAdmin: boolean;
 
-    constructor(private layoutService: LayoutService, private accountService: AccountService) {
+    constructor(private layoutService: LayoutService, private accountService: AccountService, private loginService: LoginService) {
         this.subscription = this.layoutService.configUpdate$
             .pipe(debounceTime(25))
             .subscribe(() => {
-                this.initCharts();
+                if(this.isAdmin){
+                    this.initCharts();
+                }
             });
     }
 
     ngOnInit() {
-        this.initCharts();
+        this.isAdmin = this.loginService.userState.roles.includes('ROLE_ADMIN')
+        this.username = this.loginService.userState.username
+        this.roles = this.loginService.userState.roles
+        if(this.isAdmin){
+            this.initCharts();
+        }
     }
 
     ngOnDestroy() {

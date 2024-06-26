@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router, } from "@angular/router";
 import {Message} from "primeng/api";
 import {environment} from "../../environments/environment";
+import {LoginService} from "../services/login.service";
 
 @Component({
   selector: 'app-customers',
@@ -25,16 +26,20 @@ export class CustomersComponent implements OnInit{
     statuses: any[] = [];
     id:number;
     message: Message[];
+    isAdmin: boolean;
 
     @ViewChild('filter') filter!: ElementRef;
     disabled: boolean = false;
 
     constructor(public customerService: CustomerService,
                 public formBuilder: FormBuilder,
-                private router: Router) {
+                private router: Router,
+                private loginService: LoginService,
+                ) {
     }
 
     ngOnInit(): void {
+        this.isAdmin = this.loginService.userState.roles.includes('ROLE_ADMIN')
         this.message =  [{ severity: 'warn', summary: 'No customer found!' }];
         this.loading = true;
         this.getCustomers();
@@ -69,7 +74,7 @@ export class CustomersComponent implements OnInit{
     public saveCustomer(){
         this.customer = this.customerFormGroup.value;
         this.customerService.saveCustomer(this.customer).subscribe({
-            next: value => {
+            next: () => {
                 this.getCustomers();
                 this.resetForm();
                 this.newCustomerDialogVisible = false;

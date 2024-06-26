@@ -107,7 +107,15 @@
                             <span class="customer-badge status-proposal p-2">{{account.currency}}</span>
                         </td>
                         <td class="text-center">
-                            <p-button [raised]="true" rounded="true" severity="info" icon="pi pi-eye" (click)="viewAccountHistory(account.id)" />
+                            <p-button
+                                [raised]="true"
+                                rounded="true"
+                                severity="info"
+                                icon="pi pi-eye"
+                                pTooltip="View operations"
+                                tooltipPosition="bottom"
+                                (click)="viewAccountHistory(account.id)"
+                            />
                         </td>
                     </tr>
                 </ng-template>

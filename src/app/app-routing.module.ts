@@ -8,12 +8,14 @@ import {OperationsComponent} from "./operations/operations.component";
 import {CustomerAccountsComponent} from "./customer-accounts/customer-accounts.component";
 import {AccountHistoryComponent} from "./accout-history/account-history.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import {LoginComponent} from "./login/login.component";
+import {AuthenticationGuard} from "./guards/authentication.guard";
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
             {
-                path: '', component: AppLayoutComponent,
+                path: '', component: AppLayoutComponent, canActivate: [AuthenticationGuard],
                 children: [
                     { path: 'dashboard', component: DashboardComponent},
                     { path: 'customers', component: CustomersComponent},
@@ -23,7 +25,7 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
                     { path: 'accounts/:id/history', component: AccountHistoryComponent},
                 ]
             },
-
+            { path: 'login', component: LoginComponent},
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/notfound' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })

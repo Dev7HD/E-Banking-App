@@ -9,6 +9,7 @@ import {Customer} from "../models/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {firstValueFrom} from "rxjs";
 import {environment} from "../../environments/environment";
+import {LoginService} from "../services/login.service";
 
 @Component({
   selector: 'app-customer-accounts',
@@ -21,7 +22,8 @@ export class CustomerAccountsComponent implements OnInit{
         private activatedRoute: ActivatedRoute,
         private customerService: CustomerService,
         public formBuilder: FormBuilder,
-        private router: Router
+        private router: Router,
+        private loginService: LoginService
 
     ) {
     }
@@ -35,11 +37,13 @@ export class CustomerAccountsComponent implements OnInit{
     accountTypeList: any[];
     accountType: string;
     message: Message[];
+    isAdmin: boolean;
 
     statuses: any[] = [];
     @ViewChild('filter') filter!: ElementRef;
 
     ngOnInit(): void {
+        this.isAdmin = this.loginService.userState.roles.includes('ROLE_ADMIN')
         this.message =  [{ severity: 'warn', summary: 'This customer have no accounts!' }];
         this.accountTypeList = [
             'Saving account',
@@ -147,4 +151,5 @@ export class CustomerAccountsComponent implements OnInit{
     }
 
     protected readonly environment = environment;
+
 }

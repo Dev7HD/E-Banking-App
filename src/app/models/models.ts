@@ -33,6 +33,15 @@ export interface AccountHistory {
     totalElements: number;
 }
 
+export interface LoginData {
+    username: string,
+    password: string
+}
+
+export interface LoginToken {
+    access_token: string
+}
+
 //ENUMS
 
 export enum AccountStatus {

@@ -1,6 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
+import {LoginService} from "../services/login.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-topbar',
@@ -18,7 +20,7 @@ export class AppTopBarComponent implements OnInit{
     themes: any[];
     selectedMode: any;
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService, private loginService: LoginService, private router: Router) { }
 
     ngOnInit(): void {
         this.themes = [
@@ -57,4 +59,11 @@ export class AppTopBarComponent implements OnInit{
         }
     }
 
+    logout() {
+        this.loginService.userState.isAuthenticated = false;
+        this.loginService.userState.token = '';
+        this.loginService.userState.username = '';
+        this.loginService.userState.roles = '';
+        this.router.navigateByUrl("/login");
+    }
 }

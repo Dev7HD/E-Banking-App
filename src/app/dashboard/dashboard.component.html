@@ -7,7 +7,7 @@
                     size="large"
                     shape="circle" />
                 <span class="font-bold">
-                    Hamza DAMIRI (Dev7HD)
+                    {{username}} ({{roles}})
                 </span>
             </div>
         </ng-template>
@@ -16,7 +16,7 @@
         </p>
     </p-panel>
 </div>
-<div class="grid p-fluid">
+<div *ngIf="isAdmin" class="grid p-fluid">
     <div class="col-12 lg:col-6">
         <div class="card h-full">
             <h5>Accounts by type</h5>
