@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {AccountService} from "../services/account.service";
 import {Message} from "primeng/api";
 import {Table} from "primeng/table";
@@ -48,10 +48,9 @@ export class AccountHistoryComponent implements OnInit{
                 this.balance = history.balance;
                 this.totalPages = history.totalPages;
                 this.totalElements = history.totalElements;
-                console.table(history)
                 this.loading = false;
             },
-            error: err => console.log(err)
+            error: err => console.error(err)
         })
     }
 

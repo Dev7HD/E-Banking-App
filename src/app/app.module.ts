@@ -102,8 +102,5 @@ import {AdminComponent} from "./admin/admin.component";
         },
     ],
     bootstrap: [AppComponent],
-    exports: [
-        OperationsComponent
-    ]
 })
 export class AppModule {}

@@ -53,7 +53,7 @@ export class AccountsComponent implements OnInit{
 
 
     viewAccountHistory(id: string) {
-        this.router.navigateByUrl(`/accounts/${id}/history`);
+        this.router.navigateByUrl(`/admin/accounts/${id}/history`);
     }
 
     protected readonly environment = environment;

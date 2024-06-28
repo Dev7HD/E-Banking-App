@@ -35,7 +35,6 @@ export class LoginService {
             this.userState.isAdmin = true;
         }
         window.localStorage.setItem('jwt-token', token);
-        console.log(window.localStorage.getItem('jwt-token'));
     }
 
     public logout(){
