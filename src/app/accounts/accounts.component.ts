@@ -39,7 +39,6 @@ export class AccountsComponent implements OnInit{
             { label: 'Activated', value: 'ACTIVATED' },
             { label: 'Suspended', value: 'SUSPENDED' },
         ];
-
     }
 
     clear(table: Table) {

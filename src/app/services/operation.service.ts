@@ -10,6 +10,6 @@ export class OperationService {
   constructor(private http: HttpClient) { }
 
   public getOperations(){
-      return this.http.get(`${environment.host}operations/all`);
+      return this.http.get(`${environment.host}operations`);
   }
 }

@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {LoginData, LoginToken} from "../models/models";
 import {jwtDecode} from "jwt-decode";
 import {Router} from "@angular/router";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,10 @@ export class LoginService {
         isAdmin: false
     }
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient,
+              private router: Router,
+              private messageService: MessageService
+  ) { }
 
     public login(loginData: LoginData){
       let options = {headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}
@@ -44,6 +48,10 @@ export class LoginService {
         this.userState.roles = undefined;
         this.userState.isAdmin = undefined;
         window.localStorage.removeItem('jwt-token');
-        this.router.navigateByUrl("/login")
+        this.router.navigateByUrl("/login").then(
+            () => {
+                this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Try to login again.' });
+            }
+        )
     }
 }

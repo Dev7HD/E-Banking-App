@@ -25,11 +25,6 @@ export class AppInterceptor implements HttpInterceptor {
             });
 
             switch (req.method) {
-                case 'GET':
-                    // Process GET request
-                    this.messageService.clear();
-                    this.messageService.add({ severity: 'info', summary: 'Loading', detail: 'Loading data...' });
-                    break;
                 case 'POST':
                     // Process POST request
                     this.messageService.clear();
@@ -47,7 +42,6 @@ export class AppInterceptor implements HttpInterceptor {
                     break;
                 default:
                     this.messageService.clear();
-                    this.messageService.add({ severity: 'info', summary: 'Loading', detail: 'Loading...' });
                     break;
             }
             return next.handle(modifiedReq).pipe(
@@ -55,11 +49,6 @@ export class AppInterceptor implements HttpInterceptor {
                     event => {
                         if (event instanceof HttpResponse) {
                             switch (req.method) {
-                                case 'GET':
-                                    // Process GET response
-                                    this.messageService.clear();
-                                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data loaded.' });
-                                    break;
                                 case 'POST':
                                     // Process POST response
                                     this.messageService.clear();
@@ -77,7 +66,6 @@ export class AppInterceptor implements HttpInterceptor {
                                     break;
                                 default:
                                     this.messageService.clear();
-                                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Done.' });
                                     break;
                             }
                         }
@@ -85,13 +73,16 @@ export class AppInterceptor implements HttpInterceptor {
                     (error: any) => {
                         if (error instanceof HttpErrorResponse) {
                             if (error.status === 403) {
-                                this.router.navigateByUrl('/not-auth');
-                                this.messageService.clear();
-                                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Your are not authorized...' });
+                                this.router.navigateByUrl('/dashboard').then(
+                                    () => {
+                                        this.messageService.clear();
+                                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your are not authorized!' });
+                                    }
+                                );
                             } else if(error.status == 401) {
-                                this.loginService.logout()
                                 this.messageService.clear();
-                                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Your session was over! Try to login again...' });
+                                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your session was over!' });
+                                this.loginService.logout()
                             } else {
                                 this.messageService.clear();
                                 this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Oops! Something went wrong...' });
